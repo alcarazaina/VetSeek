@@ -4,4 +4,13 @@
     <string name="buscarcerca">Veterinarios Cerca De Mi</string>
     <string name="buscar">Buscar</string>
     <string name="textobottom">Ser querido por un animal es sentir el amor más sincero del mundo.</string>
+    <string name="abierto">Abierto</string>
+    <string name="cerrado">Cerrado</string>
+    <string name="sinvaloraciones">Sin valoraciones</string>
+    <string name="buscainfo">Busca veterinarios cercanos usando los botones de arriba</string>
+    <string name="buscarenubi">Buscar en esta ubicación</string>
+    <string name="buscarmiubi">Buscar con mi ubicación actual</string>
+    <string name="buscaren__">Buscar veterinarios en...</string>
+    <string name="maps_api_key">AIzaSyC28tdSlyPFV1hEnP0k75Dptcnu5hLe65Y</string>
+    <string name="textobottom2">El amor más puro tiene cuatro patas y una cola que nunca deja de moverse.</string>
 </resources>

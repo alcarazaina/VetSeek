@@ -43,7 +43,8 @@ data class PlacesResponse(
 data class PlaceResult(
     val place_id: String,
     val name: String,
-    val vicinity: String,
+    val vicinity: String?,
+    val formatted_address: String?,  // Añadimos este campo
     val rating: Double?,
     val opening_hours: OpeningHours?,
     val geometry: Geometry,
@@ -73,10 +74,10 @@ object MapsDataMapper {
         return VeterinarioData(
             id = placeResult.place_id,
             nombre = placeResult.name,
-            direccion = placeResult.vicinity,
+            direccion = placeResult.vicinity ?: placeResult.formatted_address ?: "",
             rating = placeResult.rating ?: 0.0,
             abierto = placeResult.opening_hours?.open_now ?: false,
-            telefono = "", // Se necesitaría otra llamada a la API para obtener el teléfono
+            telefono = "",  // Mantenemos esto vacío ya que no tenemos el teléfono en esta respuesta
             latitud = placeResult.geometry.location.lat,
             longitud = placeResult.geometry.location.lng,
             fotosUrl = placeResult.photos?.map {
@@ -85,3 +86,4 @@ object MapsDataMapper {
         )
     }
 }
+

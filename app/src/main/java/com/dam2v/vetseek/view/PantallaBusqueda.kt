@@ -107,7 +107,7 @@ fun PantallaBusqueda(navController: NavController, viewModel: BusquedaViewModel 
                     contentColor = Color.White
                 ) {
                     Text(
-                        text = stringResource(R.string.textobottom),
+                        text = stringResource(R.string.textobottom2),
                         modifier = Modifier.fillMaxWidth(),
                         style = TextStyle(color = Color.White),
                         textAlign = TextAlign.Center,
@@ -145,7 +145,7 @@ fun PantallaBusqueda(navController: NavController, viewModel: BusquedaViewModel 
                         OutlinedTextField(
                             value = uiState.ubicacionBusqueda,
                             onValueChange = { viewModel.actualizarUbicacionBusqueda(it) },
-                            label = { Text("Buscar veterinarios en...") },
+                            label = { Text(stringResource(R.string.buscaren__)) },
                             modifier = Modifier.fillMaxWidth(),
                             leadingIcon = {
                                 Icon(
@@ -185,7 +185,7 @@ fun PantallaBusqueda(navController: NavController, viewModel: BusquedaViewModel 
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                "Buscar con mi ubicación actual",
+                                stringResource(R.string.buscarmiubi),
                                 style = TextStyle(Color.White),
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold
@@ -211,7 +211,7 @@ fun PantallaBusqueda(navController: NavController, viewModel: BusquedaViewModel 
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                "Buscar en esta ubicación",
+                                stringResource(R.string.buscarenubi),
                                 style = TextStyle(Color.White),
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold
@@ -249,7 +249,7 @@ fun PantallaBusqueda(navController: NavController, viewModel: BusquedaViewModel 
                     }
                 } else if (!uiState.isLoading && uiState.error == null) {
                     Text(
-                        text = "Busca veterinarios cercanos usando los botones de arriba",
+                        text = stringResource(R.string.buscainfo),
                         modifier = Modifier.padding(16.dp),
                         textAlign = TextAlign.Center,
                         color = Color.Gray
@@ -295,11 +295,13 @@ fun VeterinarioItem(veterinario: VeterinarioData) {
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            Text(
-                text = veterinario.direccion,
-                fontSize = 14.sp,
-                color = Color.DarkGray
-            )
+            veterinario.direccion?.let {
+                Text(
+                    text = it,
+                    fontSize = 14.sp,
+                    color = Color.DarkGray
+                )
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -316,7 +318,7 @@ fun VeterinarioItem(veterinario: VeterinarioData) {
                 Spacer(modifier = Modifier.width(4.dp))
 
                 Text(
-                    text = if (veterinario.rating > 0) "${veterinario.rating}" else "Sin valoraciones",
+                    text = if (veterinario.rating > 0) "${veterinario.rating}" else stringResource(R.string.sinvaloraciones),
                     fontSize = 14.sp,
                     color = Color.DarkGray
                 )
@@ -324,7 +326,9 @@ fun VeterinarioItem(veterinario: VeterinarioData) {
                 Spacer(modifier = Modifier.width(16.dp))
 
                 Text(
-                    text = if (veterinario.abierto) "Abierto" else "Cerrado",
+                    text = if (veterinario.abierto) stringResource(R.string.abierto) else stringResource(
+                        R.string.cerrado
+                    ),
                     fontSize = 14.sp,
                     color = if (veterinario.abierto) Color.Green else Color.Red
                 )

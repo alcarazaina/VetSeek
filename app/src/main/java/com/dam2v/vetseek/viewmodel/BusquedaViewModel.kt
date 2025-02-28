@@ -2,11 +2,12 @@ package com.dam2v.vetseek.viewmodel
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dam2v.vetseek.model.data.BusquedaUiState
 import com.dam2v.vetseek.model.network.MapsApiService
@@ -20,13 +21,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
+import com.dam2v.vetseek.R
 
-class BusquedaViewModel : ViewModel() {
+class BusquedaViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(BusquedaUiState())
     val uiState: StateFlow<BusquedaUiState> = _uiState.asStateFlow()
 
     private val mapsApiService = MapsApiService.create()
-    private val apiKey = "AIzaSyC28tdSlyPFV1hEnP0k75Dptcnu5hLe65Y"
+    private val apiKey = application.getString(R.string.maps_api_key)
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -45,34 +47,16 @@ class BusquedaViewModel : ViewModel() {
     @SuppressLint("MissingPermission")
     fun buscarVeterinarios(context: Context) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
+            _uiState.update { it.copy(isLoading = true, error = null, veterinarios = emptyList()) }
 
             try {
-                if (_uiState.value.usarUbicacionActual) {
+                if (uiState.value.usarUbicacionActual) {
                     // Verificar permisos
                     if (tienePermisosUbicacion(context)) {
                         val ubicacion = obtenerUbicacionActual()
                         if (ubicacion != null) {
                             val ubicacionStr = "${ubicacion.latitude},${ubicacion.longitude}"
-                            val respuesta = mapsApiService.buscarVeterinariosCercanos(
-                                ubicacion = ubicacionStr,
-                                apiKey = apiKey
-                            )
-
-                            if (respuesta.status == "OK") {
-                                val veterinarios = respuesta.results.map {
-                                    MapsDataMapper.mapToVeterinarioData(it, apiKey)
-                                }
-                                _uiState.update { it.copy(
-                                    isLoading = false,
-                                    veterinarios = veterinarios
-                                )}
-                            } else {
-                                _uiState.update { it.copy(
-                                    isLoading = false,
-                                    error = "Error en la búsqueda: ${respuesta.status}"
-                                )}
-                            }
+                            realizarBusqueda(ubicacionStr)
                         } else {
                             _uiState.update { it.copy(
                                 isLoading = false,
@@ -86,41 +70,49 @@ class BusquedaViewModel : ViewModel() {
                         )}
                     }
                 } else {
-                    // Buscar por texto
-                    if (_uiState.value.ubicacionBusqueda.isNotEmpty()) {
-                        val consulta = "veterinario en ${_uiState.value.ubicacionBusqueda}"
-                        val respuesta = mapsApiService.buscarVeterinariosPorTexto(
-                            consulta = consulta,
-                            apiKey = apiKey
-                        )
-
-                        if (respuesta.status == "OK") {
-                            val veterinarios = respuesta.results.map {
-                                MapsDataMapper.mapToVeterinarioData(it, apiKey)
-                            }
-                            _uiState.update { it.copy(
-                                isLoading = false,
-                                veterinarios = veterinarios
-                            )}
-                        } else {
-                            _uiState.update { it.copy(
-                                isLoading = false,
-                                error = "Error en la búsqueda: ${respuesta.status}"
-                            )}
-                        }
-                    } else {
-                        _uiState.update { it.copy(
-                            isLoading = false,
-                            error = "Ingresa una ubicación para buscar"
-                        )}
-                    }
+                    // Código para buscar por texto
+                    realizarBusqueda(uiState.value.ubicacionBusqueda)
                 }
             } catch (e: Exception) {
+                android.util.Log.e("MapsAPI", "Error general", e)
                 _uiState.update { it.copy(
                     isLoading = false,
                     error = "Error: ${e.message}"
                 )}
             }
+        }
+    }
+
+    private suspend fun realizarBusqueda(query: String) {
+        try {
+            val respuesta = if (uiState.value.usarUbicacionActual) {
+                mapsApiService.buscarVeterinariosCercanos(
+                    ubicacion = query,
+                    apiKey = apiKey
+                )
+            } else {
+                mapsApiService.buscarVeterinariosPorTexto(query, "veterinary_care", apiKey)
+            }
+
+            android.util.Log.d("MapsAPI", "Response status: ${respuesta.status}")
+            android.util.Log.d("MapsAPI", "Response body: $respuesta")
+
+            if (respuesta.status == "OK") {
+                val veterinarios = respuesta.results.mapNotNull { placeResult ->
+                    try {
+                        MapsDataMapper.mapToVeterinarioData(placeResult, apiKey)
+                    } catch (e: Exception) {
+                        android.util.Log.e("MapsAPI", "Error mapping place result: $placeResult", e)
+                        null
+                    }
+                }
+                _uiState.update { it.copy(isLoading = false, veterinarios = veterinarios) }
+            } else {
+                _uiState.update { it.copy(isLoading = false, error = "Error en la búsqueda: ${respuesta.status}") }
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("MapsAPI", "Error in API call", e)
+            _uiState.update { it.copy(isLoading = false, error = "Error en la llamada a la API: ${e.message}") }
         }
     }
 
@@ -143,5 +135,5 @@ class BusquedaViewModel : ViewModel() {
                 }
         }
     }
-    }
+}
 
