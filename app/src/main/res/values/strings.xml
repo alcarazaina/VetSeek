@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">VetSeek</string>
-    <string name="comenzar">Ir a Adoptda</string>
+    <string name="comenzar">Comenzar Busqueda</string>
+    <string name="buscarcerca">Veterinarios Cerca De Mi</string>
+    <string name="buscar">Buscar</string>
+    <string name="textobottom">Ser querido por un animal es sentir el amor más sincero del mundo.</string>
 </resources>

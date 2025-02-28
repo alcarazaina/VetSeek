@@ -14,9 +14,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dam2v.vetseek.view.ui.theme.Marilloso
+import com.dam2v.vetseek.viewmodel.InicioViewModel
+import com.dam2v.vetseek.R
 
 @Composable
 fun PantallaInicio(navController: NavController, viewModel: InicioViewModel = viewModel()) {
@@ -33,9 +38,9 @@ fun PantallaInicio(navController: NavController, viewModel: InicioViewModel = vi
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo),
+            painter = painterResource(id =R.drawable.logo_general),
             contentDescription = "Logo de la aplicación",
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier.size(400.dp)
         )
         Spacer(modifier = Modifier.height(32.dp))
         Button(onClick = { viewModel.onComenzarClick() },
@@ -43,7 +48,9 @@ fun PantallaInicio(navController: NavController, viewModel: InicioViewModel = vi
             colors = ButtonDefaults.buttonColors(Marilloso)
         ) {
             Text(stringResource(R.string.comenzar),
-                style = TextStyle(Color.White)
+                style = TextStyle(Color.White),  fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+
             )
         }
     }
