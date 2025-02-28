@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.dam2v.vetseek.view.ui.theme.PantallaBusqueda
 import com.dam2v.vetseek.view.ui.theme.VetSeekTheme
 
 class MainActivity : ComponentActivity() {

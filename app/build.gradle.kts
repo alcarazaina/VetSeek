@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.android)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,5 +64,17 @@ dependencies {
     implementation(libs.gson)
     runtimeOnly(libs.kotlinx.coroutines.core)
     runtimeOnly(libs.kotlinx.coroutines.android)
+    implementation(libs.play.services.location.v2101)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.kotlinx.coroutines.android.v171)
+
+    // Retrofit
+    implementation(libs.retrofit.v290)
+    implementation(libs.converter.gson)
+
+    // Gson
+    implementation(libs.gson.v2101)
+    // Accompanist Permissions
+    implementation(libs.accompanist.permissions)
 
 }
