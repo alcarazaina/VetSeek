@@ -44,7 +44,6 @@ A continuación, se detallan los cambios realizados en el proyecto junto con las
 ### 📅 5 de Marzo de 2025
 
 ```md
-- **@alcarazaina**: Implementación de Coil para sacar las imágenes del veterinario mejorado.
 - **@alcarazaina**: Implementación de Coil para sacar las imágenes del veterinario.
 - **@alcarazaina**: Actualización del `README.md`.
 - **@alcarazaina**: Creación del `README.md`.
