@@ -39,14 +39,22 @@ git clone https://github.com/usuario/repositorio.git
 ```
 
 ## 📜 Historial de Commits y Contribuciones
-- **Feb 28, 2025** - Arreglado todo para que funcione correctamente, incluyendo la búsqueda y la lista de veterinarios cercanos. *por alcarazaina*
-- **Feb 28, 2025** - Actualización del código. *por juanda1612*
-- **Feb 28, 2025** - Creación de las pantallas: `PantallaMenu.kt`, `PantallaInicio.kt`, `PantallaBusqueda.kt`, añadido strings, iconos y fondos de la aplicación. *por alcarazaina*
-- **Feb 28, 2025** - Añadidas imágenes de la aplicación. *por juanda1612*
-- **Feb 28, 2025** - Organización del proyecto, configuración de permisos en `AndroidManifest.xml` y `build.gradle.kts` para habilitar conexión a internet. Añadidos colores en `Color.kt` para el diseño. *por alcarazaina*
-- **Feb 24, 2025** - Organización usando el modelo de vista. *por alcarazaina*
-- **Feb 24, 2025** - Initial commit. *por alcarazaina*
+A continuación, se detallan los cambios realizados en el proyecto junto con las contribuciones de cada persona:
 
+###📅 28 de Febrero de 2025
+```md
+- **@alcarazaina**: Arreglado todo para que funcione correctamente, incluyendo la búsqueda y la lista de veterinarios cercanos.
+- **@juanda1612**: Actualización del código.
+- **@alcarazaina**: Creación de las pantallas: `PantallaMenu.kt`, `PantallaInicio.kt`, `PantallaBusqueda.kt`, añadido strings, iconos y fondos de la aplicación.
+- **@juanda1612**: Añadidas imágenes de la aplicación.
+- **@alcarazaina**: Organización del proyecto, configuración de permisos en `AndroidManifest.xml` y `build.gradle.kts` para habilitar conexión a internet. Añadidos colores en `Color.kt` para el diseño.
+```
+
+###📅 24 de Febrero de 2025
+```md
+- **@alcarazaina**: Organización usando el modelo de vista.
+- **@alcarazaina**: Initial commit.
+```
 
 ## 💖 Agradecimientos
 Queremos agradecer a todos los que han visitado y leído este proyecto. Esperamos que esta aplicación ayude a muchos dueños de mascotas a encontrar atención veterinaria de calidad. 🏥🐾 ¡Gracias por tomarte el tiempo de conocer nuestra iniciativa! 🎉
