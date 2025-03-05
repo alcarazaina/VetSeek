@@ -13,11 +13,3 @@ data class VeterinarioData(
     val fotosUrl: List<String> = emptyList()
 )
 
-data class BusquedaUiState(
-    val isLoading: Boolean = false,
-    val veterinarios: List<VeterinarioData> = emptyList(),
-    val error: String? = null,
-    val ubicacionBusqueda: String = "",
-    val usarUbicacionActual: Boolean = true
-)
-

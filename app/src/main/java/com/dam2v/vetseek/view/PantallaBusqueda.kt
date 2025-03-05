@@ -7,9 +7,12 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Search
@@ -18,6 +21,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
@@ -141,30 +145,115 @@ fun PantallaBusqueda(navController: NavController, viewModel: BusquedaViewModel 
                             .padding(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        // TextField para buscar por ubicación
-                        OutlinedTextField(
-                            value = uiState.ubicacionBusqueda,
-                            onValueChange = { viewModel.actualizarUbicacionBusqueda(it) },
-                            label = { Text(stringResource(R.string.buscaren__)) },
-                            modifier = Modifier.fillMaxWidth(),
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = "Buscar"
+                        // TextField para buscar por ubicación con búsquedas recientes
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            OutlinedTextField(
+                                value = uiState.ubicacionBusqueda,
+                                onValueChange = { viewModel.actualizarUbicacionBusqueda(it) },
+                                label = { Text(stringResource(R.string.buscaren__)) },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .onFocusChanged { focusState ->
+                                        if (focusState.isFocused) {
+                                            viewModel.mostrarBusquedasRecientes(true)
+                                        }
+                                    },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Search,
+                                        contentDescription = "Buscar"
+                                    )
+                                },
+                                trailingIcon = {
+                                    if (uiState.ubicacionBusqueda.isNotEmpty()) {
+                                        IconButton(onClick = { viewModel.actualizarUbicacionBusqueda("") }) {
+                                            Icon(
+                                                imageVector = Icons.Default.Close,
+                                                contentDescription = "Limpiar"
+                                            )
+                                        }
+                                    }
+                                },
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedBorderColor = Marilloso,
+                                    focusedLabelColor = Marilloso,
+                                    cursorColor = Marilloso
                                 )
-                            },
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = Marilloso,
-                                focusedLabelColor = Marilloso,
-                                cursorColor = Marilloso
                             )
-                        )
+
+                            // Mostrar búsquedas recientes cuando el campo está enfocado
+                            if (uiState.mostrarBusquedasRecientes && uiState.busquedasRecientes.isNotEmpty()) {
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 60.dp), // Ajustar según el tamaño del TextField
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = Color.White
+                                    ),
+                                    elevation = CardDefaults.cardElevation(
+                                        defaultElevation = 4.dp
+                                    )
+                                ) {
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(8.dp)
+                                    ) {
+                                        Text(
+                                            text = "Búsquedas recientes",
+                                            fontWeight = FontWeight.Bold,
+                                            modifier = Modifier.padding(8.dp)
+                                        )
+
+                                        LazyColumn(
+                                            modifier = Modifier.heightIn(max = 200.dp)
+                                        ) {
+                                            items(uiState.busquedasRecientes) { busqueda ->
+                                                Row(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .clickable {
+                                                            viewModel.seleccionarBusquedaReciente(busqueda.texto)
+                                                        }
+                                                        .padding(8.dp),
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Default.DateRange,
+                                                        contentDescription = "Búsqueda reciente",
+                                                        tint = Color.Gray,
+                                                        modifier = Modifier.size(20.dp)
+                                                    )
+                                                    Spacer(modifier = Modifier.width(8.dp))
+                                                    Text(
+                                                        text = busqueda.texto,
+                                                        modifier = Modifier.weight(1f)
+                                                    )
+                                                    IconButton(
+                                                        onClick = { viewModel.eliminarBusquedaReciente(busqueda.texto) },
+                                                        modifier = Modifier.size(24.dp)
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Default.Close,
+                                                            contentDescription = "Eliminar",
+                                                            tint = Color.Gray,
+                                                            modifier = Modifier.size(16.dp)
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
                         Spacer(modifier = Modifier.height(16.dp))
 
                         // Botón para buscar con ubicación actual
                         Button(
                             onClick = {
+                                viewModel.mostrarBusquedasRecientes(false)
                                 when (locationPermissionState.status) {
                                     is PermissionStatus.Granted -> {
                                         viewModel.toggleUsarUbicacionActual(true)
@@ -197,6 +286,7 @@ fun PantallaBusqueda(navController: NavController, viewModel: BusquedaViewModel 
                         // Botón para buscar con la ubicación ingresada
                         Button(
                             onClick = {
+                                viewModel.mostrarBusquedasRecientes(false)
                                 viewModel.toggleUsarUbicacionActual(false)
                                 viewModel.buscarVeterinarios(context)
                             },

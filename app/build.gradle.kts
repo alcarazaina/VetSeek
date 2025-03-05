@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
@@ -82,5 +83,9 @@ dependencies {
     implementation(libs.gson.v2101)
     // Accompanist Permissions
     implementation(libs.accompanist.permissions)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx) // Corrutinas con Room
+    kapt("androidx.room:room-compiler:2.7.0-rc01") // Para la generación de código
 
 }

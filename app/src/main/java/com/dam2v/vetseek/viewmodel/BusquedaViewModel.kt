@@ -9,9 +9,9 @@ import android.location.Location
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.dam2v.vetseek.model.data.BusquedaUiState
-import com.dam2v.vetseek.model.network.MapsApiService
-import com.dam2v.vetseek.model.network.MapsDataMapper
+import com.dam2v.vetseek.model.data.BusquedaReciente
+
+import com.dam2v.vetseek.model.database.AppDatabase
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import com.dam2v.vetseek.R
+import com.dam2v.vetseek.model.data.BusquedaUiState
+import com.dam2v.vetseek.model.network.MapsApiService
+import com.dam2v.vetseek.model.network.MapsDataMapper
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 
 class BusquedaViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(BusquedaUiState())
@@ -32,6 +36,17 @@ class BusquedaViewModel(application: Application) : AndroidViewModel(application
     private val apiKey = application.getString(R.string.maps_api_key)
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val busquedaRecienteDao = AppDatabase.getDatabase(application).busquedaRecienteDao()
+
+    init {
+        // Cargar búsquedas recientes al iniciar
+        viewModelScope.launch {
+            busquedaRecienteDao.obtenerBusquedasRecientes().collectLatest { busquedas ->
+                _uiState.update { it.copy(busquedasRecientes = busquedas) }
+            }
+        }
+    }
 
     fun inicializarLocationClient(context: Context) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
@@ -43,6 +58,26 @@ class BusquedaViewModel(application: Application) : AndroidViewModel(application
 
     fun toggleUsarUbicacionActual(usar: Boolean) {
         _uiState.update { it.copy(usarUbicacionActual = usar) }
+    }
+
+    fun mostrarBusquedasRecientes(mostrar: Boolean) {
+        _uiState.update { it.copy(mostrarBusquedasRecientes = mostrar) }
+    }
+
+    fun seleccionarBusquedaReciente(busqueda: String) {
+        _uiState.update {
+            it.copy(
+                ubicacionBusqueda = busqueda,
+                usarUbicacionActual = false,
+                mostrarBusquedasRecientes = false
+            )
+        }
+    }
+
+    fun eliminarBusquedaReciente(texto: String) {
+        viewModelScope.launch {
+            busquedaRecienteDao.eliminarBusqueda(texto)
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -71,8 +106,14 @@ class BusquedaViewModel(application: Application) : AndroidViewModel(application
                         )}
                     }
                 } else {
-                    // Código para buscar por texto
-                    realizarBusqueda(uiState.value.ubicacionBusqueda)
+                    // Guardar la búsqueda en la base de datos si no está vacía
+                    val textoBusqueda = uiState.value.ubicacionBusqueda.trim()
+                    if (textoBusqueda.isNotEmpty()) {
+                        busquedaRecienteDao.insertarBusqueda(BusquedaReciente(textoBusqueda))
+                    }
+
+                    // Realizar la búsqueda
+                    realizarBusqueda(textoBusqueda)
                 }
             } catch (e: Exception) {
                 android.util.Log.e("MapsAPI", "Error general", e)
@@ -136,29 +177,29 @@ class BusquedaViewModel(application: Application) : AndroidViewModel(application
                 }
         }
     }
-        fun obtenerDetallesVeterinario(veterinarioId: String) {
-            viewModelScope.launch {
-                try {
-                    // Aquí podrías hacer una llamada a la API de Google Places para obtener más detalles
-                    // Por ejemplo, usando el endpoint Place Details
-                    // Por ahora, simplemente actualizamos el estado para indicar que estamos cargando
-                    _uiState.update { it.copy(isLoading = true) }
 
-                    // Simulamos una carga
-                    delay(500)
+    fun obtenerDetallesVeterinario(veterinarioId: String) {
+        viewModelScope.launch {
+            try {
+                // Aquí podrías hacer una llamada a la API de Google Places para obtener más detalles
+                // Por ejemplo, usando el endpoint Place Details
+                // Por ahora, simplemente actualizamos el estado para indicar que estamos cargando
+                _uiState.update { it.copy(isLoading = true) }
 
-                    // Actualizamos el estado para indicar que hemos terminado de cargar
-                    _uiState.update { it.copy(isLoading = false) }
-                } catch (e: Exception) {
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            error = "Error al obtener detalles: ${e.message}"
-                        )
-                    }
+                // Simulamos una carga
+                delay(500)
+
+                // Actualizamos el estado para indicar que hemos terminado de cargar
+                _uiState.update { it.copy(isLoading = false) }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        error = "Error al obtener detalles: ${e.message}"
+                    )
                 }
             }
         }
-
+    }
 }
 
