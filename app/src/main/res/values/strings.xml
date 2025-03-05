@@ -13,4 +13,8 @@
     <string name="buscaren__">Buscar veterinarios en...</string>
     <string name="maps_api_key">AIzaSyC28tdSlyPFV1hEnP0k75Dptcnu5hLe65Y</string>
     <string name="textobottom2">El amor más puro tiene cuatro patas y una cola que nunca deja de moverse.</string>
+    <string name="detalles">Detalles del veterinario</string>
+    <string name="imagenes_disponibles">Imágenes disponibles</string>
+    <string name="no_hay_imagenes">No hay imágenes disponibles para este veterinario</string>
+    <string name="veterinario_no_encontrado">Veterinario no encontrado</string>
 </resources>

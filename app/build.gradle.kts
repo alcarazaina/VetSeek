@@ -75,6 +75,9 @@ dependencies {
     implementation(libs.retrofit.v290)
     implementation(libs.converter.gson)
 
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
     // Gson
     implementation(libs.gson.v2101)
     // Accompanist Permissions

@@ -244,7 +244,13 @@ fun PantallaBusqueda(navController: NavController, viewModel: BusquedaViewModel 
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         itemsIndexed(uiState.veterinarios) { index, veterinario ->
-                            VeterinarioItem(veterinario = veterinario)
+                            VeterinarioItem(
+                                veterinario = veterinario,
+                                onClick = {
+                                    // Navegar a la pantalla de detalles del veterinario
+                                    navController.navigate("detalle_veterinario/${veterinario.id}")
+                                }
+                            )
                         }
                     }
                 } else if (!uiState.isLoading && uiState.error == null) {
@@ -261,22 +267,17 @@ fun PantallaBusqueda(navController: NavController, viewModel: BusquedaViewModel 
 }
 
 @Composable
-fun VeterinarioItem(veterinario: VeterinarioData) {
+fun VeterinarioItem(
+    veterinario: VeterinarioData,
+    onClick: () -> Unit
+) {
     val context = LocalContext.current
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .clickable {
-                // Abrir en Google Maps
-                val gmmIntentUri = Uri.parse("geo:${veterinario.latitud},${veterinario.longitud}?q=${Uri.encode(veterinario.nombre)}")
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.setPackage("com.google.android.apps.maps")
-                if (mapIntent.resolveActivity(context.packageManager) != null) {
-                    context.startActivity(mapIntent)
-                }
-            },
+            .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
             containerColor = Color.White.copy(alpha = 0.9f)
         )
