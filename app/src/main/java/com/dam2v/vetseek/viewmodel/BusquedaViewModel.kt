@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import com.dam2v.vetseek.R
+import kotlinx.coroutines.delay
 
 class BusquedaViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(BusquedaUiState())
@@ -135,5 +136,29 @@ class BusquedaViewModel(application: Application) : AndroidViewModel(application
                 }
         }
     }
+        fun obtenerDetallesVeterinario(veterinarioId: String) {
+            viewModelScope.launch {
+                try {
+                    // Aquí podrías hacer una llamada a la API de Google Places para obtener más detalles
+                    // Por ejemplo, usando el endpoint Place Details
+                    // Por ahora, simplemente actualizamos el estado para indicar que estamos cargando
+                    _uiState.update { it.copy(isLoading = true) }
+
+                    // Simulamos una carga
+                    delay(500)
+
+                    // Actualizamos el estado para indicar que hemos terminado de cargar
+                    _uiState.update { it.copy(isLoading = false) }
+                } catch (e: Exception) {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = "Error al obtener detalles: ${e.message}"
+                        )
+                    }
+                }
+            }
+        }
+
 }
 

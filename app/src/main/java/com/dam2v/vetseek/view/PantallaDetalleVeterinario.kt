@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,6 +56,11 @@ fun PantallaDetalleVeterinario(
     val veterinario = uiState.veterinarios.find { it.id == veterinarioId }
     val backgroundImage = ImageBitmap.imageResource(id = R.drawable.fondo)
     val context = LocalContext.current
+
+    // Cargar detalles adicionales cuando se abre la pantalla
+    LaunchedEffect(veterinarioId) {
+        viewModel.obtenerDetallesVeterinario(veterinarioId)
+    }
 
     // Crear un ImageLoader optimizado
     val imageLoader = ImageLoader.Builder(context)
@@ -269,6 +275,13 @@ fun PantallaDetalleVeterinario(
 
                     // Grid de imágenes
                     if (veterinario.fotosUrl.isNotEmpty()) {
+                        Text(
+                            text = "${veterinario.fotosUrl.size} ${stringResource(R.string.imagenes_encontradas)}",
+                            fontSize = 14.sp,
+                            color = Color.Gray,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(2),
                             contentPadding = PaddingValues(4.dp),
@@ -283,13 +296,28 @@ fun PantallaDetalleVeterinario(
                                         containerColor = Color.White.copy(alpha = 0.9f)
                                     )
                                 ) {
-                                    AsyncImage(
-                                        model = fotoUrl,
-                                        contentDescription = "Foto de ${veterinario.nombre}",
+                                    Box(
                                         modifier = Modifier.fillMaxSize(),
-                                        contentScale = ContentScale.Crop,
-                                        imageLoader = imageLoader
-                                    )
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        // Indicador de carga
+                                        CircularProgressIndicator(
+                                            color = Marilloso,
+                                            modifier = Modifier.size(24.dp)
+                                        )
+
+                                        // Imagen
+                                        AsyncImage(
+                                            model = fotoUrl,
+                                            contentDescription = "Foto de ${veterinario.nombre}",
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.Crop,
+                                            imageLoader = imageLoader,
+                                            onLoading = { /* Mostrar indicador de carga */ },
+                                            onSuccess = { /* Ocultar indicador de carga */ },
+                                            onError = { /* Mostrar icono de error */ }
+                                        )
+                                    }
                                 }
                             }
                         }

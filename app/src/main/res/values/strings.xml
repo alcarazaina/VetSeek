@@ -17,4 +17,5 @@
     <string name="imagenes_disponibles">Imágenes disponibles</string>
     <string name="no_hay_imagenes">No hay imágenes disponibles para este veterinario</string>
     <string name="veterinario_no_encontrado">Veterinario no encontrado</string>
+    <string name="imagenes_encontradas">imágenes encontradas</string>
 </resources>
