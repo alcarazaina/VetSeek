@@ -26,24 +26,13 @@ Este es un proyecto diseñado para ayudar a los usuarios a encontrar veterinario
 - Ainara (@alcarazaina)
 - Juan Daniel (@juanda1612)
 
-## 📌 Instalación y configuración
-```sh
-# Clona el repositorio
-git clone https://github.com/usuario/repositorio.git
-
-# Abre el proyecto en Android Studio
-
-# Asegúrate de tener configurado un emulador o dispositivo físico con conexión a internet
-
-# Ejecuta la aplicación presionando Run ▶️
-```
-
 ## 📜 Historial de Commits y Contribuciones
 A continuación, se detallan los cambios realizados en el proyecto junto con las contribuciones de cada persona:
 
 ### 📅 5 de Marzo de 2025
 
 ```md
+- **@juanda1612**: Implementación de room para guardado de búsquedas recientes.
 - **@alcarazaina**: Implementación de Coil para sacar las imágenes del veterinario.
 - **@alcarazaina**: Actualización del `README.md`.
 - **@alcarazaina**: Creación del `README.md`.
