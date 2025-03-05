@@ -41,6 +41,15 @@ git clone https://github.com/usuario/repositorio.git
 ## 📜 Historial de Commits y Contribuciones
 A continuación, se detallan los cambios realizados en el proyecto junto con las contribuciones de cada persona:
 
+### 📅 5 de Marzo de 2025
+
+```md
+- **@alcarazaina**: Implementación de Coil para sacar las imágenes del veterinario mejorado.
+- **@alcarazaina**: Implementación de Coil para sacar las imágenes del veterinario.
+- **@alcarazaina**: Actualización del `README.md`.
+- **@alcarazaina**: Creación del `README.md`.
+```
+
 ### 📅 28 de Febrero de 2025
 ```md
 - **@alcarazaina**: Arreglado todo para que funcione correctamente, incluyendo la búsqueda y la lista de veterinarios cercanos.
