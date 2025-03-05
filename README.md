@@ -13,7 +13,7 @@ Este es un proyecto diseñado para ayudar a los usuarios a encontrar veterinario
 2. Presiona el botón **Buscar** para abrir la pantalla de búsqueda.
 3. En la **pantalla de búsqueda**, puedes optar por buscar veterinarios en tu ubicación actual o introducir una dirección específica.
 4. Pulsa el botón de **Buscar con mi ubicación actual** o en **Buscar en esta ubicación**, si eliges buscar en esta ubicación debes añadir en el campo de arriba la ubicación que deseas, y aparecerá una lista con los veterinarios más cercanos.
-5. Selecciona una clínica para ver detalles adicionales.
+5. Selecciona una clínica para ver detalles adicionales como imágenes.
 
 ## 🛠 Tecnologías utilizadas
 - **Lenguaje:** Kotlin
