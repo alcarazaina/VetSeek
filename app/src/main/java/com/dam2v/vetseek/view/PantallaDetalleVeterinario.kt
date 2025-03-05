@@ -130,7 +130,7 @@ fun PantallaDetalleVeterinario(
                     contentColor = Color.White
                 ) {
                     Text(
-                        text = stringResource(R.string.textobottom2),
+                        text = stringResource(R.string.textobottom3),
                         modifier = Modifier.fillMaxWidth(),
                         style = TextStyle(color = Color.White),
                         textAlign = TextAlign.Center,
