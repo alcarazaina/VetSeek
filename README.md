@@ -2,13 +2,6 @@
 
 Este es un proyecto diseñado para ayudar a los usuarios a encontrar veterinarios cercanos a su ubicación o en una ubicación específica introducida en la aplicación. Facilita la búsqueda de clínicas y hospitales veterinarios de manera rápida y sencilla.
 
-## 🛠 Tecnologías utilizadas
-- **Lenguaje:** Kotlin
-- **Framework UI:** Jetpack Compose
-- **Arquitectura:** MVVM
-- **Navegación:** Jetpack Navigation
-- **Servicios de Ubicación:** API de Google Maps
-
 ## 🚀 Características
 - Búsqueda de veterinarios cercanos mediante la ubicación del usuario.
 - Posibilidad de introducir una dirección específica para buscar clínicas en otra área.
@@ -21,6 +14,17 @@ Este es un proyecto diseñado para ayudar a los usuarios a encontrar veterinario
 3. En la **pantalla de búsqueda**, puedes optar por buscar veterinarios en tu ubicación actual o introducir una dirección específica.
 4. Pulsa el botón de **Buscar con mi ubicación actual** o en **Buscar en esta ubicación**, si eliges buscar en esta ubicación debes añadir en el campo de arriba la ubicación que deseas, y aparecerá una lista con los veterinarios más cercanos.
 5. Selecciona una clínica para ver detalles adicionales.
+
+## 🛠 Tecnologías utilizadas
+- **Lenguaje:** Kotlin
+- **Framework UI:** Jetpack Compose
+- **Arquitectura:** MVVM
+- **Navegación:** Jetpack Navigation
+- **Servicios de Ubicación:** API de Google Maps
+
+## 👩🏼‍💻 Integrantes
+- Ainara (@alcarazaina)
+- Juan Daniel (@juanda1612)
 
 ## 📌 Instalación y configuración
 ```sh
