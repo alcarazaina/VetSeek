@@ -41,7 +41,7 @@ git clone https://github.com/usuario/repositorio.git
 ## 📜 Historial de Commits y Contribuciones
 A continuación, se detallan los cambios realizados en el proyecto junto con las contribuciones de cada persona:
 
-###📅 28 de Febrero de 2025
+### 📅 28 de Febrero de 2025
 ```md
 - **@alcarazaina**: Arreglado todo para que funcione correctamente, incluyendo la búsqueda y la lista de veterinarios cercanos.
 - **@juanda1612**: Actualización del código.
@@ -50,7 +50,7 @@ A continuación, se detallan los cambios realizados en el proyecto junto con las
 - **@alcarazaina**: Organización del proyecto, configuración de permisos en `AndroidManifest.xml` y `build.gradle.kts` para habilitar conexión a internet. Añadidos colores en `Color.kt` para el diseño.
 ```
 
-###📅 24 de Febrero de 2025
+### 📅 24 de Febrero de 2025
 ```md
 - **@alcarazaina**: Organización usando el modelo de vista.
 - **@alcarazaina**: Initial commit.
